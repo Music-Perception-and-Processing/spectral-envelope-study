@@ -14,7 +14,7 @@
 %% Define directories and parameters
 
 hdir = [pwd, filesep];             % set home directory (current folder)
-addpath([hdir, 'Scripts_Pub']);    % add path to Scripts folder
+addpath([hdir, 'Scripts']);    % add path to Scripts folder
 addpath([hdir, 'Data']);           % add path to Data folder
 addpath([hdir, 'Functions']);      % add path to Functions folder
 
