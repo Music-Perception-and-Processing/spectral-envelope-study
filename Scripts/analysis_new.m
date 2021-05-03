@@ -46,7 +46,24 @@ for nFam = 1:length(fieldnames(an.fam))-1 % family loop
 end
 F0_grid = round(unique(F0s));
 
-% plot 2d pics of pitch-varying spectral envelopes [spectrogram-like]
+%% Get register indices
+an.regis_ind = []; 
+for nFam = 1:12 %length(fieldnames(an.fam))-1 % family loop 
+    fnames = fieldnames(an.fam);  % name of current family
+    fname = fnames{nFam}; 
+    artics = an.art.(fname); % get predefined articulation
+    X = []; Y = []; 
+    for nInstr = 1:length(an.fam.(fname)) % gather info for every instrument class
+        iname = an.fam.(fname){nInstr}; % name of selected instrument
+        % get register indices 
+        reg_low = (an.regis.(fname){nInstr,1}); 
+        an.regis_ind.(iname).low = find(dat.(iname).(artics).(dyn_lev).x.F0 <= muspitch2freq(reg_low)); 
+        reg_mid = (an.regis.(fname){nInstr,2}); 
+        an.regis_ind.(iname).mid = find(dat.(iname).(artics).(dyn_lev).x.F0 > muspitch2freq(reg_low) & ...
+            dat.(iname).(artics).(dyn_lev).x.F0 <= muspitch2freq(reg_mid)); 
+        an.regis_ind.(iname).hig = find(dat.(iname).(artics).(dyn_lev).x.F0 > muspitch2freq(reg_mid)); 
+    end
+end
 
 %% Plot Figure 3 (SC trajectories)
 if pflag
